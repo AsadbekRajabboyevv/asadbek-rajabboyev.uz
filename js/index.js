@@ -50,9 +50,12 @@
               
               // Experience Section
               "experience-title": "Experience",
-              "experience-a1tech-date": "February 2024 - Present",
+              "experience-a1tech-date": "February 2024 - October 2025",
               "experience-a1tech-position": "Java Backend Developer",
               "experience-a1tech-desc": "Working on large-scale projects and startups. Successfully completed a real project in March 2024 and currently working on a major startup project.",
+              "experience-uzinfocom-date": "October 2025 - Present",
+              "experience-uzinfocom-position": "Software Engineer",
+              "experience-uzinfocom-desc": " I am currently working as a Software Engineer at Uzinfocom, Uzbekistan’s national IT integrator. I am actively involved in the HET Billing System, a mission-critical nationwide platform that manages electricity consumption billing for over 8 million residential households and legal consumers across the country.",
               "experience-apprentice-title": "Apprenticeship",
               "experience-apprentice-date": "September 2023 - February 2024",
               "experience-apprentice-position": "Java Backend Apprentice",
@@ -120,9 +123,12 @@
               
               // Experience Section
               "experience-title": "Опыт работы",
-              "experience-a1tech-date": "Февраль 2024 - Настоящее время",
+              "experience-a1tech-date": "Февраль 2024 - Октябрь 2025",
               "experience-a1tech-position": "Java Backend Разработчик",
               "experience-a1tech-desc": "Работа над крупномасштабными проектами и стартапами. Успешно завершил реальный проект в марте 2024 года и в настоящее время работаю над крупным стартап-проектом.",
+              "experience-uzinfocom-date": "Октябрь 2025 - настоящее время",
+              "experience-uzinfocom-position": "Программист",
+              "experience-uzinfocom-desc": "В настоящее время я работаю программистом в компании \"Узинфоком\", национальном ИТ-интеграторе Узбекистана. Я активно участвую в разработке системы выставления счетов HET, критически важной общенациональной платформы, которая управляет выставлением счетов за потребление электроэнергии для более чем 8 миллионов домохозяйств и юридический потребителей по всей стране.",
               "experience-apprentice-title": "Ученичество",
               "experience-apprentice-date": "Сентябрь 2023 - Февраль 2024",
               "experience-apprentice-position": "Java Backend Ученик",
@@ -190,9 +196,12 @@
               
               // Experience Section
               "experience-title": "Tajriba",
-              "experience-a1tech-date": "Fevral 2024 - Hozirgi vaqtgacha",
+              "experience-a1tech-date": "Fevral 2024 - Oktyabr 2025",
               "experience-a1tech-position": "Java Backend Dasturchi",
               "experience-a1tech-desc": "Katta loyihalar va startaplar ustida ishlash. 2024-yil mart oyida real loyihani muvaffaqiyatli yakunladim va hozirda katta startap loyihasi ustida ishlayapman.",
+              "experience-uzinfocom-date": "2025-yil oktyabr - Hozirgi kungacha",
+              "experience-uzinfocom-position": "Dasturiy ta'minot muhandisi",
+              "experience-uzinfocom-desc": "Men hozirda O'zbekistonning milliy IT integratori Uzinfocom kompaniyasida dasturiy ta'minot muhandisi bo'lib ishlayapman. Men mamlakat bo'ylab 8 milliondan ortiq turar-joy xonadonlari va yuridik iste'molchilar uchun elektr energiyasi iste'moli uchun hisob-kitoblarni boshqaradigan juda muhim milliy platforma bo'lgan HET Billing tizimida faol ishtirok etaman.",
               "experience-apprentice-title": "Shogirdlik",
               "experience-apprentice-date": "Sentyabr 2023 - Fevral 2024",
               "experience-apprentice-position": "Java Backend Shogird",
