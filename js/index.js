@@ -63,7 +63,17 @@
               "experience-itpark-date": "January 2023 - July 2023",
               "experience-itpark-position": "Mobile Development Student",
               "experience-itpark-desc": "Completed a 6-month mobile development course. Created small applications and games as part of the training.",
-              
+
+                // Education Section
+              "education-title": "Education",
+              "education-school-name": "General Secondary School No. 5, Urganch District, Khorezm Region",
+              "education-school-date": "September 2013 - May 2024",
+              "education-school-level": "General Secondary Education (Grades 1-11)",
+              "education-school-desc": "I studied at the 5th general secondary school in Urganch district, Khorezm region. I began my education in September 2013 as a first-grade student and successfully completed the 11th grade in May 2024.",
+              "education-university-name": "Urgench State University named after Al-Beruni",
+              "education-university-date": "September 2025 - 2029 (Expected)",
+              "education-university-level": "Bachelor’s Degree",
+              "education-university-desc": "In September 2025, one year after completing secondary school, I was recommended for admission to Urgench State University named after Al-Beruni as a bachelor’s degree student at the Faculty of Computer Engineering. I am expected to graduate in 2029.",              
               // Contact Section
               "contact-title": "Contact Me",
               "contact-info": "Contact Information",
@@ -137,7 +147,17 @@
               "experience-itpark-position": "Студент мобильной разработки",
               "experience-itpark-desc": "Завершил 6-месячный курс мобильной разработки. Создал небольшие приложения и игры в рамках обучения.",
               
-              // Contact Section
+              // Education Section
+              "education-title": "Образование",
+              "education-school-name": "Средняя общеобразовательная школа №5, Ургенчский район, Хорезмская область",
+              "education-school-date": "Сентябрь 2013 - Май 2024",
+              "education-school-level": "Общее среднее образование (1-11 классы)",
+              "education-school-desc": "Я обучался в средней общеобразовательной школе №5 Ургенчского района Хорезмской области. Обучение начал в сентябре 2013 года в первом классе и успешно окончил 11-й класс в мае 2024 года.",
+              "education-university-name": "Ургенчский государственный университет имени Аль-Беруни",
+              "education-university-date": "Сентябрь 2025 - 2029 (ожидается)",
+              "education-university-level": "Степень бакалавра",
+              "education-university-desc": "В сентябре 2025 года, через год после окончания школы, я был рекомендован к поступлению в Ургенчский государственный университет имени Аль-Беруни на обучение по программе бакалавриата на факультет компьютерной инженерии. Окончание обучения планируется в 2029 году.",           
+             // Contact Section
               "contact-title": "Связаться со мной",
               "contact-info": "Контактная информация",
               "contact-address": "Адрес",
@@ -210,6 +230,16 @@
               "experience-itpark-position": "Mobil dasturlash talabasi",
               "experience-itpark-desc": "6 oylik mobil dasturlash kursini yakunladim. O'quv jarayonida kichik ilovalar va o'yinlar yaratdim.",
               
+              //Education Section
+              "education-title": "Ta’lim",
+              "education-school-name": "Xorazm viloyati, Urganch tumani, 5-sonli umumiy o‘rta ta’lim maktabi",
+              "education-school-date": "2013-yil sentyabr - 2024-yil may",
+              "education-school-level": "Umumiy o‘rta ta’lim (1-11-sinflar)",
+              "education-school-desc": "Men Xorazm viloyati, Urganch tumani, 5-sonli umumiy o‘rta ta’lim maktabida tahsil olganman. 2013-yil sentyabr oyida 1-sinfga qabul qilinganman va 2024-yil may oyida 11-sinfni muvaffaqiyatli tamomlaganman.",   
+              "education-university-name": "Al-Beruniy nomidagi Urganch davlat universiteti",
+              "education-university-date": "2025-yil sentyabr - 2029-yil (kutilmoqda)",
+              "education-university-level": "Bakalavr darajasi",
+              "education-university-desc": "Maktabni tugatganimdan bir yil o‘tib, 2025-yil sentyabr oyida Al-Beruniy nomidagi Urganch davlat universitetining Kompyuter injiniringi fakultetiga bakalavr bosqichida o‘qishga tavsiya qilinganman. O‘qishni 2029-yilda tamomlashim rejalashtirilgan.",             
               // Contact Section
               "contact-title": "Men bilan bog'laning",
               "contact-info": "Aloqa ma'lumotlari",
