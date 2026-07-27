@@ -1,0 +1,38 @@
+    <header class="bg-primary text-white shadow-lg fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold">AR</a>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#home" class="nav-link hover:text-blue-300 transition"><%= t.home %></a>
+                <a href="#about" class="nav-link hover:text-blue-300 transition"><%= t.about %></a>
+                <a href="#skills" class="nav-link hover:text-blue-300 transition"><%= t.skills %></a>
+                <a href="#projects" class="nav-link hover:text-blue-300 transition"><%= t.projects %></a>
+                <a href="#experience" class="nav-link hover:text-blue-300 transition"><%= t.experience %></a>
+                <a href="#education" class="nav-link hover:text-blue-300 transition"><%= t.education %></a>
+                <a href="#contact" class="nav-link hover:text-blue-300 transition"><%= t.contact %></a>
+            </nav>
+            <div class="flex items-center space-x-3">
+                <a href="/" class="language-btn w-8 h-8 rounded-full overflow-hidden hover:ring-2 hover:ring-blue-300 transition <%= lang === 'en' ? 'active-lang ring-2 ring-blue-300' : '' %>"><img src="https://flagcdn.com/w40/gb.png" alt="English" class="w-full h-full object-cover"></a>
+                <a href="/ru" class="language-btn w-8 h-8 rounded-full overflow-hidden hover:ring-2 hover:ring-blue-300 transition <%= lang === 'ru' ? 'active-lang ring-2 ring-blue-300' : '' %>"><img src="https://flagcdn.com/w40/ru.png" alt="Russian" class="w-full h-full object-cover"></a>
+                <a href="/uz" class="language-btn w-8 h-8 rounded-full overflow-hidden hover:ring-2 hover:ring-blue-300 transition <%= lang === 'uz' ? 'active-lang ring-2 ring-blue-300' : '' %>"><img src="https://flagcdn.com/w40/uz.png" alt="Uzbek" class="w-full h-full object-cover"></a>
+                <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none ml-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-secondary">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#home" class="text-white hover:text-blue-300 transition"><%= t.home %></a>
+                <a href="#about" class="text-white hover:text-blue-300 transition"><%= t.about %></a>
+                <a href="#skills" class="text-white hover:text-blue-300 transition"><%= t.skills %></a>
+                <a href="#projects" class="text-white hover:text-blue-300 transition"><%= t.projects %></a>
+                <a href="#experience" class="text-white hover:text-blue-300 transition"><%= t.experience %></a>
+                <a href="#education" class="text-white hover:text-blue-300 transition"><%= t.education %></a>
+                <a href="#contact" class="text-white hover:text-blue-300 transition"><%= t.contact %></a>
+                <div class="flex space-x-4 pt-2">
+                    <a href="/" class="language-btn w-8 h-8 rounded-full overflow-hidden hover:ring-2 hover:ring-blue-300 transition <%= lang === 'en' ? 'ring-2 ring-blue-300' : '' %>"><img src="https://flagcdn.com/w40/gb.png" alt="English" class="w-full h-full object-cover"></a>
+                    <a href="/ru" class="language-btn w-8 h-8 rounded-full overflow-hidden hover:ring-2 hover:ring-blue-300 transition <%= lang === 'ru' ? 'ring-2 ring-blue-300' : '' %>"><img src="https://flagcdn.com/w40/ru.png" alt="Russian" class="w-full h-full object-cover"></a>
+                    <a href="/uz" class="language-btn w-8 h-8 rounded-full overflow-hidden hover:ring-2 hover:ring-blue-300 transition <%= lang === 'uz' ? 'ring-2 ring-blue-300' : '' %>"><img src="https://flagcdn.com/w40/uz.png" alt="Uzbek" class="w-full h-full object-cover"></a>
+                </div>
+            </div>
+        </div>
+    </header>

@@ -1,0 +1,19 @@
+{
+  "name": "asadbek-rajabboyev-portfolio",
+  "version": "1.0.0",
+  "description": "Dynamic portfolio website with admin panel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "ejs": "^3.1.10",
+    "better-sqlite3": "^11.7.0",
+    "multer": "^1.4.5-lts.1",
+    "bcryptjs": "^2.4.3",
+    "express-session": "^1.18.1",
+    "dotenv": "^16.4.7"
+  }
+}

@@ -1,0 +1,74 @@
+/* public/css/admin.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f4f6;
+}
+
+/* Sidebar styling */
+.sidebar {
+    background: #00072D;
+    transition: all 0.3s ease-in-out;
+}
+.sidebar-link {
+    transition: all 0.2s ease-in-out;
+}
+.sidebar-link:hover, .sidebar-link.active {
+    background-color: #0A2472;
+    color: white;
+}
+.sidebar-link.active {
+    border-left: 4px solid #3B82F6;
+}
+
+/* Tab transitions */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form focus styles */
+input:focus, textarea:focus, select:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    border-color: #3B82F6;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1; 
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8; 
+}
+
+/* Table styling */
+.table-hover tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Notification Flash */
+.flash-message {
+    animation: slideIn 0.3s ease-in-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}

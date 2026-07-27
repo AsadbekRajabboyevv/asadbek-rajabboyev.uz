@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="flex h-screen bg-gray-50 font-[Poppins] overflow-hidden text-gray-800">
+
+    <!-- Flash Messages -->
+    <div id="flash-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2">
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="flash-message bg-green-500 text-white px-6 py-3 rounded shadow-lg flex items-center justify-between min-w-[300px]">
+                <div class="flex items-center"><i class="fas fa-check-circle mr-2"></i> <%= success %></div>
+                <button class="close-flash ml-4 text-white hover:text-gray-200"><i class="fas fa-times"></i></button>
+            </div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="flash-message bg-red-500 text-white px-6 py-3 rounded shadow-lg flex items-center justify-between min-w-[300px]">
+                <div class="flex items-center"><i class="fas fa-exclamation-circle mr-2"></i> <%= error %></div>
+                <button class="close-flash ml-4 text-white hover:text-gray-200"><i class="fas fa-times"></i></button>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-40 w-64 text-gray-300 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shadow-xl">
+        <div class="flex items-center justify-between h-20 px-6 bg-[#000418] border-b border-gray-800">
+            <div class="flex items-center gap-3 text-white font-bold text-xl tracking-wider">
+                <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center text-sm shadow-lg shadow-blue-500/30">AR</div>
+                <span>Admin</span>
+            </div>
+            <button id="close-sidebar-btn" class="lg:hidden text-gray-400 hover:text-white">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1 custom-scrollbar">
+            <a href="#" data-tab-target="dashboard" data-initial-tab="true" class="sidebar-link active flex items-center px-4 py-3 text-sm rounded-lg">
+                <i class="fas fa-tachometer-alt w-6"></i> Dashboard
+            </a>
+            <a href="#" data-tab-target="settings" class="sidebar-link flex items-center px-4 py-3 text-sm rounded-lg">
+                <i class="fas fa-cog w-6"></i> Settings
+            </a>
+            <a href="#" data-tab-target="about" class="sidebar-link flex items-center px-4 py-3 text-sm rounded-lg">
+                <i class="fas fa-user w-6"></i> About
+            </a>
+            <a href="#" data-tab-target="skills" class="sidebar-link flex items-center px-4 py-3 text-sm rounded-lg">
+                <i class="fas fa-code w-6"></i> Skills
+            </a>
+            <a href="#" data-tab-target="projects" class="sidebar-link flex items-center px-4 py-3 text-sm rounded-lg">
+                <i class="fas fa-project-diagram w-6"></i> Projects
+            </a>
+            <a href="#" data-tab-target="experience" class="sidebar-link flex items-center px-4 py-3 text-sm rounded-lg">
+                <i class="fas fa-briefcase w-6"></i> Experience
+            </a>
+            <a href="#" data-tab-target="education" class="sidebar-link flex items-center px-4 py-3 text-sm rounded-lg">
+                <i class="fas fa-graduation-cap w-6"></i> Education
+            </a>
+        </nav>
+        
+        <div class="p-4 border-t border-gray-800">
+            <a href="/admin/logout" class="flex items-center px-4 py-3 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors">
+                <i class="fas fa-sign-out-alt w-6"></i> Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden lg:ml-64 w-full">
+        <!-- Topbar -->
+        <header class="bg-white h-20 border-b border-gray-200 flex items-center justify-between px-6 shadow-sm z-30">
+            <div class="flex items-center">
+                <button id="mobile-menu-btn" class="lg:hidden mr-4 text-gray-500 hover:text-blue-600 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-semibold text-gray-800">Portfolio Admin Panel</h1>
+            </div>
+            <div>
+                <a href="/" target="_blank" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors border border-gray-200">
+                    <i class="fas fa-external-link-alt mr-2"></i> View Site
+                </a>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50">
+            
+            <!-- DASHBOARD TAB -->
+            <div id="dashboard" class="tab-content active">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">Overview</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center">
+                        <div class="rounded-full bg-blue-100 p-3 mr-4">
+                            <i class="fas fa-user text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">About Entries</p>
+                            <p class="text-2xl font-bold text-gray-800"><%= (typeof about !== 'undefined') ? about.length : 0 %></p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center">
+                        <div class="rounded-full bg-green-100 p-3 mr-4">
+                            <i class="fas fa-code text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Skills</p>
+                            <p class="text-2xl font-bold text-gray-800"><%= (typeof skills !== 'undefined') ? skills.length : 0 %></p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center">
+                        <div class="rounded-full bg-purple-100 p-3 mr-4">
+                            <i class="fas fa-project-diagram text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Projects</p>
+                            <p class="text-2xl font-bold text-gray-800"><%= (typeof projects !== 'undefined') ? projects.length : 0 %></p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center">
+                        <div class="rounded-full bg-orange-100 p-3 mr-4">
+                            <i class="fas fa-briefcase text-orange-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Experience</p>
+                            <p class="text-2xl font-bold text-gray-800"><%= (typeof experience !== 'undefined') ? experience.length : 0 %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS TAB -->
+            <div id="settings" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Site Settings</h2>
+                </div>
+                
+                <form action="/admin/settings" method="POST" enctype="multipart/form-data" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-gray-100 pb-8">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-[#00072D] border-b pb-2">Profile Image</h3>
+                            <div class="flex flex-col items-start gap-4">
+                                <div class="relative w-32 h-32 rounded-lg border-2 border-dashed border-gray-300 overflow-hidden group bg-gray-50 flex items-center justify-center">
+                                    <% if(typeof settings !== 'undefined' && settings.profile_image) { %>
+                                        <img src="<%= settings.profile_image %>" id="profile-preview" class="w-full h-full object-cover">
+                                    <% } else { %>
+                                        <img src="" id="profile-preview" class="w-full h-full object-cover hidden">
+                                        <i class="fas fa-image text-gray-400 text-3xl"></i>
+                                    <% } %>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Upload New Image</label>
+                                    <input type="file" name="profile_image" accept="image/*" data-preview-target="profile-preview" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-[#00072D] border-b pb-2">Basic Info</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <input type="text" name="full_name" value="<%= settings.full_name || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Job Title (EN)</label>
+                                        <input type="text" name="job_title_en" value="<%= settings.job_title_en || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Job Title (RU)</label>
+                                        <input type="text" name="job_title_ru" value="<%= settings.job_title_ru || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Job Title (UZ)</label>
+                                        <input type="text" name="job_title_uz" value="<%= settings.job_title_uz || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-gray-100 pb-8">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-[#00072D] border-b pb-2">Contact & Location</h3>
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Email 1</label>
+                                        <input type="email" name="email_1" value="<%= settings.email_1 || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Email 2</label>
+                                        <input type="email" name="email_2" value="<%= settings.email_2 || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number (Link)</label>
+                                        <input type="text" name="phone" value="<%= settings.phone || '' %>" placeholder="+998901234567" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone (Display)</label>
+                                        <input type="text" name="phone_display" value="<%= settings.phone_display || '' %>" placeholder="+998 90 123-45-67" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Location (EN)</label>
+                                        <input type="text" name="location_en" value="<%= settings.location_en || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Location (RU)</label>
+                                        <input type="text" name="location_ru" value="<%= settings.location_ru || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Location (UZ)</label>
+                                        <input type="text" name="location_uz" value="<%= settings.location_uz || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Location Maps URL</label>
+                                    <input type="text" name="location_url" value="<%= settings.location_url || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-[#00072D] border-b pb-2">Social Links</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <span class="w-10 text-center text-gray-500"><i class="fab fa-linkedin text-xl"></i></span>
+                                    <input type="url" name="linkedin" value="<%= settings.linkedin || '' %>" placeholder="LinkedIn URL" class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-10 text-center text-gray-500"><i class="fab fa-github text-xl"></i></span>
+                                    <input type="url" name="github" value="<%= settings.github || '' %>" placeholder="GitHub URL" class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-10 text-center text-gray-500"><i class="fab fa-telegram text-xl"></i></span>
+                                    <input type="url" name="telegram" value="<%= settings.telegram || '' %>" placeholder="Telegram URL" class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="w-10 text-center text-gray-500"><i class="fab fa-instagram text-xl"></i></span>
+                                    <input type="url" name="instagram" value="<%= settings.instagram || '' %>" placeholder="Instagram URL" class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-gray-100 pb-8">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-[#00072D] border-b pb-2">SEO Settings</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Meta Title (EN, RU, UZ)</label>
+                                    <div class="space-y-2">
+                                        <input type="text" name="meta_title_en" value="<%= settings.meta_title_en || '' %>" placeholder="EN Title" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                        <input type="text" name="meta_title_ru" value="<%= settings.meta_title_ru || '' %>" placeholder="RU Title" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                        <input type="text" name="meta_title_uz" value="<%= settings.meta_title_uz || '' %>" placeholder="UZ Title" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Meta Description (EN, RU, UZ)</label>
+                                    <div class="space-y-2">
+                                        <textarea name="meta_description_en" rows="2" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"><%= settings.meta_description_en || '' %></textarea>
+                                        <textarea name="meta_description_ru" rows="2" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"><%= settings.meta_description_ru || '' %></textarea>
+                                        <textarea name="meta_description_uz" rows="2" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"><%= settings.meta_description_uz || '' %></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-semibold mb-4 text-[#00072D] border-b pb-2">Extra Configuration</h3>
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Birthday Month (1-12)</label>
+                                        <input type="number" name="birthday_month" value="<%= settings.birthday_month || '1' %>" min="1" max="12" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Birthday Day (1-31)</label>
+                                        <input type="number" name="birthday_day" value="<%= settings.birthday_day || '1' %>" min="1" max="31" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Launch Year</label>
+                                    <input type="number" name="launch_year" value="<%= settings.launch_year || new Date().getFullYear() %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Music File URL (optional)</label>
+                                    <input type="text" name="music_file" value="<%= settings.music_file || '' %>" class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center shadow-lg shadow-blue-500/30">
+                            <i class="fas fa-save mr-2"></i> Save Settings
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ABOUT TAB -->
+            <div id="about" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">About Section</h2>
+                    <button onclick="document.getElementById('add-about-modal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-plus mr-1"></i> Add Paragraph
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <% if(typeof about !== 'undefined' && about.length > 0) { %>
+                        <% about.forEach(item => { %>
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="text-xs font-semibold bg-gray-100 text-gray-600 px-2 py-1 rounded">Order: <%= item.sort_order %></div>
+                                    <div class="flex space-x-2">
+                                        <button onclick="document.getElementById('edit-about-<%= item.id %>').classList.remove('hidden')" class="text-blue-500 hover:text-blue-700 bg-blue-50 p-2 rounded">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <form action="/admin/about/delete/<%= item.id %>" method="POST" class="delete-form inline">
+                                            <button type="submit" class="text-red-500 hover:text-red-700 bg-red-50 p-2 rounded">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="space-y-3 text-sm">
+                                    <p><strong class="text-gray-700">EN:</strong> <%= item.text_en %></p>
+                                    <p><strong class="text-gray-700">RU:</strong> <%= item.text_ru %></p>
+                                    <p><strong class="text-gray-700">UZ:</strong> <%= item.text_uz %></p>
+                                </div>
+                                
+                                <!-- Edit Modal -->
+                                <div id="edit-about-<%= item.id %>" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-2xl">
+                                        <h3 class="text-xl font-bold mb-4">Edit Paragraph</h3>
+                                        <form action="/admin/about/update/<%= item.id %>" method="POST" class="space-y-4">
+                                            <div><label class="block text-sm font-medium mb-1">Text (EN)</label><textarea name="text_en" rows="3" required class="w-full rounded border px-3 py-2 text-sm"><%= item.text_en %></textarea></div>
+                                            <div><label class="block text-sm font-medium mb-1">Text (RU)</label><textarea name="text_ru" rows="3" required class="w-full rounded border px-3 py-2 text-sm"><%= item.text_ru %></textarea></div>
+                                            <div><label class="block text-sm font-medium mb-1">Text (UZ)</label><textarea name="text_uz" rows="3" required class="w-full rounded border px-3 py-2 text-sm"><%= item.text_uz %></textarea></div>
+                                            <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="<%= item.sort_order %>" class="w-32 rounded border px-3 py-2 text-sm"></div>
+                                            <div class="flex justify-end space-x-3 mt-6">
+                                                <button type="button" onclick="document.getElementById('edit-about-<%= item.id %>').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="bg-white p-8 rounded-xl border border-gray-100 text-center text-gray-500">No about paragraphs found. Add one!</div>
+                    <% } %>
+                </div>
+
+                <!-- Add Modal -->
+                <div id="add-about-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-2xl">
+                        <h3 class="text-xl font-bold mb-4">Add New Paragraph</h3>
+                        <form action="/admin/about/create" method="POST" class="space-y-4">
+                            <div><label class="block text-sm font-medium mb-1">Text (EN)</label><textarea name="text_en" rows="3" required class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                            <div><label class="block text-sm font-medium mb-1">Text (RU)</label><textarea name="text_ru" rows="3" required class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                            <div><label class="block text-sm font-medium mb-1">Text (UZ)</label><textarea name="text_uz" rows="3" required class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                            <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="0" class="w-32 rounded border px-3 py-2 text-sm"></div>
+                            <div class="flex justify-end space-x-3 mt-6">
+                                <button type="button" onclick="document.getElementById('add-about-modal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Add Paragraph</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKILLS TAB -->
+            <div id="skills" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Skills Management</h2>
+                    <button onclick="document.getElementById('add-skill-modal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-plus mr-1"></i> Add Skill
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <% if(typeof skills !== 'undefined' && skills.length > 0) { %>
+                        <% skills.forEach(item => { %>
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded flex items-center justify-center text-xl">
+                                            <i class="<%= item.icon_class %>"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-gray-800"><%= item.name %></h4>
+                                            <div class="text-xs text-gray-500">Order: <%= item.sort_order %></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex space-x-1">
+                                        <button onclick="document.getElementById('edit-skill-<%= item.id %>').classList.remove('hidden')" class="text-blue-500 p-1"><i class="fas fa-edit"></i></button>
+                                        <form action="/admin/skills/delete/<%= item.id %>" method="POST" class="delete-form inline">
+                                            <button type="submit" class="text-red-500 p-1"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <div class="w-full bg-gray-200 rounded-full h-2 mb-1">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: <%= item.percentage %>%"></div>
+                                </div>
+                                <div class="text-right text-xs font-bold text-gray-600"><%= item.percentage %>%</div>
+
+                                <!-- Edit Modal -->
+                                <div id="edit-skill-<%= item.id %>" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
+                                        <h3 class="text-xl font-bold mb-4">Edit Skill</h3>
+                                        <form action="/admin/skills/update/<%= item.id %>" method="POST" class="space-y-4">
+                                            <div><label class="block text-sm font-medium mb-1">Name</label><input type="text" name="name" value="<%= item.name %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Icon Class (FontAwesome)</label>
+                                                <div class="flex space-x-2">
+                                                    <div class="w-10 h-10 border rounded flex items-center justify-center bg-gray-50 text-lg"><i id="edit-icon-prev-<%= item.id %>" class="<%= item.icon_class %>"></i></div>
+                                                    <input type="text" name="icon_class" value="<%= item.icon_class %>" required class="icon-input flex-1 rounded border px-3 py-2 text-sm" data-preview-target="edit-icon-prev-<%= item.id %>">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="block text-sm font-medium mb-1">Percentage: <span id="edit-pct-val-<%= item.id %>"><%= item.percentage %>%</span></label>
+                                                <input type="range" name="percentage" min="0" max="100" value="<%= item.percentage %>" class="w-full" data-display-target="edit-pct-val-<%= item.id %>">
+                                            </div>
+                                            <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="<%= item.sort_order %>" class="w-full rounded border px-3 py-2 text-sm"></div>
+                                            <div class="flex justify-end space-x-3 mt-6">
+                                                <button type="button" onclick="document.getElementById('edit-skill-<%= item.id %>').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+
+                <!-- Add Skill Modal -->
+                <div id="add-skill-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-md">
+                        <h3 class="text-xl font-bold mb-4">Add New Skill</h3>
+                        <form action="/admin/skills/create" method="POST" class="space-y-4">
+                            <div><label class="block text-sm font-medium mb-1">Name</label><input type="text" name="name" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Icon Class (FontAwesome)</label>
+                                <div class="flex space-x-2">
+                                    <div class="w-10 h-10 border rounded flex items-center justify-center bg-gray-50 text-lg"><i id="add-icon-prev" class="fas fa-question"></i></div>
+                                    <input type="text" name="icon_class" placeholder="fab fa-js" required class="icon-input flex-1 rounded border px-3 py-2 text-sm" data-preview-target="add-icon-prev">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Percentage: <span id="add-pct-val">80%</span></label>
+                                <input type="range" name="percentage" min="0" max="100" value="80" class="w-full" data-display-target="add-pct-val">
+                            </div>
+                            <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="0" class="w-full rounded border px-3 py-2 text-sm"></div>
+                            <div class="flex justify-end space-x-3 mt-6">
+                                <button type="button" onclick="document.getElementById('add-skill-modal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Add Skill</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECTS TAB -->
+            <div id="projects" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Projects Portfolio</h2>
+                    <button onclick="document.getElementById('add-project-modal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-plus mr-1"></i> Add Project
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <% if(typeof projects !== 'undefined' && projects.length > 0) { %>
+                        <% projects.forEach(item => { %>
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                                <div class="h-48 bg-gray-200 relative">
+                                    <% if(item.image_url) { %>
+                                        <img src="<%= item.image_url %>" class="w-full h-full object-cover">
+                                    <% } else { %>
+                                        <div class="w-full h-full flex items-center justify-center text-gray-400"><i class="fas fa-image text-4xl"></i></div>
+                                    <% } %>
+                                </div>
+                                <div class="p-5">
+                                    <h3 class="font-bold text-lg mb-2 truncate"><%= item.title_en %></h3>
+                                    <p class="text-sm text-gray-500 mb-4 line-clamp-2"><%= item.description_en %></p>
+                                    <div class="flex flex-wrap gap-1 mb-4">
+                                        <% if(item.parsed_tech) { %>
+                                            <% item.parsed_tech.forEach(tech => { %>
+                                                <span class="px-2 py-1 bg-gray-100 text-xs rounded-md text-gray-600 border border-gray-200"><%= tech %></span>
+                                            <% }) %>
+                                        <% } %>
+                                    </div>
+                                    <div class="flex justify-between items-center pt-3 border-t border-gray-100">
+                                        <div class="text-xs text-gray-400">Order: <%= item.sort_order %></div>
+                                        <div class="flex space-x-2">
+                                            <button onclick="document.getElementById('edit-project-<%= item.id %>').classList.remove('hidden')" class="text-blue-500 hover:text-blue-700 bg-blue-50 p-2 rounded text-sm"><i class="fas fa-edit"></i> Edit</button>
+                                            <form action="/admin/projects/delete/<%= item.id %>" method="POST" class="delete-form inline">
+                                                <button type="submit" class="text-red-500 hover:text-red-700 bg-red-50 p-2 rounded text-sm"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Edit Modal -->
+                                <div id="edit-project-<%= item.id %>" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+                                        <h3 class="text-xl font-bold mb-4">Edit Project</h3>
+                                        <form action="/admin/projects/update/<%= item.id %>" method="POST" enctype="multipart/form-data" class="space-y-4" data-has-tech="true">
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div class="space-y-4">
+                                                    <div><label class="block text-sm font-medium mb-1">Title (EN)</label><input type="text" name="title_en" value="<%= item.title_en %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                    <div><label class="block text-sm font-medium mb-1">Title (RU)</label><input type="text" name="title_ru" value="<%= item.title_ru %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                    <div><label class="block text-sm font-medium mb-1">Title (UZ)</label><input type="text" name="title_uz" value="<%= item.title_uz %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                    <div><label class="block text-sm font-medium mb-1">GitHub URL</label><input type="url" name="github_url" value="<%= item.github_url || '' %>" class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                    <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="<%= item.sort_order %>" class="w-32 rounded border px-3 py-2 text-sm"></div>
+                                                </div>
+                                                <div class="space-y-4">
+                                                    <div><label class="block text-sm font-medium mb-1">Description (EN)</label><textarea name="description_en" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_en %></textarea></div>
+                                                    <div><label class="block text-sm font-medium mb-1">Description (RU)</label><textarea name="description_ru" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_ru %></textarea></div>
+                                                    <div><label class="block text-sm font-medium mb-1">Description (UZ)</label><textarea name="description_uz" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_uz %></textarea></div>
+                                                    <div>
+                                                        <label class="block text-sm font-medium mb-1">Technologies (comma separated)</label>
+                                                        <input type="text" class="tech-input w-full rounded border px-3 py-2 text-sm" value="<%= (item.parsed_tech || []).join(', ') %>" placeholder="Node.js, Express, React">
+                                                        <input type="hidden" name="technologies" class="tech-hidden-input" value="<%= item.technologies %>">
+                                                    </div>
+                                                    <div>
+                                                        <label class="block text-sm font-medium mb-1">Project Image</label>
+                                                        <input type="file" name="image" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700">
+                                                        <p class="text-xs text-gray-500 mt-1">Leave empty to keep current image.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                                                <button type="button" onclick="document.getElementById('edit-project-<%= item.id %>').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+
+                <!-- Add Project Modal -->
+                <div id="add-project-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+                        <h3 class="text-xl font-bold mb-4">Add New Project</h3>
+                        <form action="/admin/projects/create" method="POST" enctype="multipart/form-data" class="space-y-4" data-has-tech="true">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="space-y-4">
+                                    <div><label class="block text-sm font-medium mb-1">Title (EN)</label><input type="text" name="title_en" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                    <div><label class="block text-sm font-medium mb-1">Title (RU)</label><input type="text" name="title_ru" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                    <div><label class="block text-sm font-medium mb-1">Title (UZ)</label><input type="text" name="title_uz" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                    <div><label class="block text-sm font-medium mb-1">GitHub URL</label><input type="url" name="github_url" class="w-full rounded border px-3 py-2 text-sm"></div>
+                                    <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="0" class="w-32 rounded border px-3 py-2 text-sm"></div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div><label class="block text-sm font-medium mb-1">Description (EN)</label><textarea name="description_en" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                                    <div><label class="block text-sm font-medium mb-1">Description (RU)</label><textarea name="description_ru" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                                    <div><label class="block text-sm font-medium mb-1">Description (UZ)</label><textarea name="description_uz" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Technologies (comma separated)</label>
+                                        <input type="text" class="tech-input w-full rounded border px-3 py-2 text-sm" placeholder="Node.js, Express, React">
+                                        <input type="hidden" name="technologies" class="tech-hidden-input" value="[]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-1">Project Image</label>
+                                        <input type="file" name="image" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                                <button type="button" onclick="document.getElementById('add-project-modal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Add Project</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXPERIENCE TAB -->
+            <div id="experience" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Experience Timeline</h2>
+                    <button onclick="document.getElementById('add-exp-modal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-plus mr-1"></i> Add Experience
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <% if(typeof experience !== 'undefined' && experience.length > 0) { %>
+                        <% experience.forEach(item => { %>
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col md:flex-row gap-4">
+                                <div class="w-full md:w-1/4">
+                                    <div class="text-blue-600 font-bold mb-1"><%= item.period_en %></div>
+                                    <h4 class="font-bold text-gray-800"><%= item.company_en %></h4>
+                                    <div class="text-sm text-gray-500 font-medium"><%= item.position_en %></div>
+                                    <div class="mt-2 text-xs text-gray-400">Order: <%= item.sort_order %></div>
+                                </div>
+                                <div class="w-full md:w-3/4 flex justify-between">
+                                    <div class="text-sm text-gray-600 max-w-3xl">
+                                        <p class="mb-2"><strong>EN:</strong> <%= item.description_en %></p>
+                                    </div>
+                                    <div class="flex flex-col space-y-2 ml-4">
+                                        <button onclick="document.getElementById('edit-exp-<%= item.id %>').classList.remove('hidden')" class="text-blue-500 bg-blue-50 p-2 rounded hover:bg-blue-100"><i class="fas fa-edit"></i></button>
+                                        <form action="/admin/experience/delete/<%= item.id %>" method="POST" class="delete-form">
+                                            <button type="submit" class="text-red-500 bg-red-50 p-2 rounded hover:bg-red-100"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <!-- Edit Modal -->
+                                <div id="edit-exp-<%= item.id %>" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+                                        <h3 class="text-xl font-bold mb-4">Edit Experience</h3>
+                                        <form action="/admin/experience/update/<%= item.id %>" method="POST" class="space-y-4">
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div><label class="block text-sm font-medium mb-1">Company (EN)</label><input type="text" name="company_en" value="<%= item.company_en %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Company (RU)</label><input type="text" name="company_ru" value="<%= item.company_ru %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Company (UZ)</label><input type="text" name="company_uz" value="<%= item.company_uz %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                            </div>
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div><label class="block text-sm font-medium mb-1">Position (EN)</label><input type="text" name="position_en" value="<%= item.position_en %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Position (RU)</label><input type="text" name="position_ru" value="<%= item.position_ru %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Position (UZ)</label><input type="text" name="position_uz" value="<%= item.position_uz %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                            </div>
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div><label class="block text-sm font-medium mb-1">Period (EN)</label><input type="text" name="period_en" value="<%= item.period_en %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Period (RU)</label><input type="text" name="period_ru" value="<%= item.period_ru %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Period (UZ)</label><input type="text" name="period_uz" value="<%= item.period_uz %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                            </div>
+                                            <div class="grid grid-cols-1 gap-4">
+                                                <div><label class="block text-sm font-medium mb-1">Company URL</label><input type="url" name="company_url" value="<%= item.company_url || '' %>" class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="<%= item.sort_order %>" class="w-32 rounded border px-3 py-2 text-sm"></div>
+                                            </div>
+                                            <div class="space-y-3 mt-4">
+                                                <div><label class="block text-sm font-medium mb-1">Description (EN)</label><textarea name="description_en" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_en %></textarea></div>
+                                                <div><label class="block text-sm font-medium mb-1">Description (RU)</label><textarea name="description_ru" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_ru %></textarea></div>
+                                                <div><label class="block text-sm font-medium mb-1">Description (UZ)</label><textarea name="description_uz" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_uz %></textarea></div>
+                                            </div>
+                                            <div class="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                                                <button type="button" onclick="document.getElementById('edit-exp-<%= item.id %>').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+
+                <!-- Add Experience Modal -->
+                <div id="add-exp-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+                        <h3 class="text-xl font-bold mb-4">Add Experience</h3>
+                        <form action="/admin/experience/create" method="POST" class="space-y-4">
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-sm font-medium mb-1">Company (EN)</label><input type="text" name="company_en" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Company (RU)</label><input type="text" name="company_ru" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Company (UZ)</label><input type="text" name="company_uz" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-sm font-medium mb-1">Position (EN)</label><input type="text" name="position_en" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Position (RU)</label><input type="text" name="position_ru" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Position (UZ)</label><input type="text" name="position_uz" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-sm font-medium mb-1">Period (EN)</label><input type="text" name="period_en" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Period (RU)</label><input type="text" name="period_ru" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Period (UZ)</label><input type="text" name="period_uz" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                            </div>
+                            <div class="grid grid-cols-1 gap-4">
+                                <div><label class="block text-sm font-medium mb-1">Company URL</label><input type="url" name="company_url" class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="0" class="w-32 rounded border px-3 py-2 text-sm"></div>
+                            </div>
+                            <div class="space-y-3 mt-4">
+                                <div><label class="block text-sm font-medium mb-1">Description (EN)</label><textarea name="description_en" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                                <div><label class="block text-sm font-medium mb-1">Description (RU)</label><textarea name="description_ru" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                                <div><label class="block text-sm font-medium mb-1">Description (UZ)</label><textarea name="description_uz" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                            </div>
+                            <div class="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                                <button type="button" onclick="document.getElementById('add-exp-modal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Add Experience</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EDUCATION TAB -->
+            <div id="education" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Education Timeline</h2>
+                    <button onclick="document.getElementById('add-edu-modal').classList.remove('hidden')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-plus mr-1"></i> Add Education
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <% if(typeof education !== 'undefined' && education.length > 0) { %>
+                        <% education.forEach(item => { %>
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex flex-col md:flex-row gap-4">
+                                <div class="w-full md:w-1/4">
+                                    <div class="text-blue-600 font-bold mb-1"><%= item.period_en %></div>
+                                    <h4 class="font-bold text-gray-800"><%= item.institution_en %></h4>
+                                    <div class="text-sm text-gray-500 font-medium"><%= item.degree_en %></div>
+                                    <div class="mt-2 text-xs text-gray-400">Order: <%= item.sort_order %></div>
+                                </div>
+                                <div class="w-full md:w-3/4 flex justify-between">
+                                    <div class="text-sm text-gray-600 max-w-3xl">
+                                        <p class="mb-2"><strong>EN:</strong> <%= item.description_en %></p>
+                                    </div>
+                                    <div class="flex flex-col space-y-2 ml-4">
+                                        <button onclick="document.getElementById('edit-edu-<%= item.id %>').classList.remove('hidden')" class="text-blue-500 bg-blue-50 p-2 rounded hover:bg-blue-100"><i class="fas fa-edit"></i></button>
+                                        <form action="/admin/education/delete/<%= item.id %>" method="POST" class="delete-form">
+                                            <button type="submit" class="text-red-500 bg-red-50 p-2 rounded hover:bg-red-100"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                                <!-- Edit Modal -->
+                                <div id="edit-edu-<%= item.id %>" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+                                        <h3 class="text-xl font-bold mb-4">Edit Education</h3>
+                                        <form action="/admin/education/update/<%= item.id %>" method="POST" class="space-y-4">
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div><label class="block text-sm font-medium mb-1">Institution (EN)</label><input type="text" name="institution_en" value="<%= item.institution_en %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Institution (RU)</label><input type="text" name="institution_ru" value="<%= item.institution_ru %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Institution (UZ)</label><input type="text" name="institution_uz" value="<%= item.institution_uz %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                            </div>
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div><label class="block text-sm font-medium mb-1">Degree (EN)</label><input type="text" name="degree_en" value="<%= item.degree_en %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Degree (RU)</label><input type="text" name="degree_ru" value="<%= item.degree_ru %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Degree (UZ)</label><input type="text" name="degree_uz" value="<%= item.degree_uz %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                            </div>
+                                            <div class="grid grid-cols-3 gap-4">
+                                                <div><label class="block text-sm font-medium mb-1">Period (EN)</label><input type="text" name="period_en" value="<%= item.period_en %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Period (RU)</label><input type="text" name="period_ru" value="<%= item.period_ru %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Period (UZ)</label><input type="text" name="period_uz" value="<%= item.period_uz %>" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                            </div>
+                                            <div class="grid grid-cols-1 gap-4">
+                                                <div><label class="block text-sm font-medium mb-1">Institution URL</label><input type="url" name="institution_url" value="<%= item.institution_url || '' %>" class="w-full rounded border px-3 py-2 text-sm"></div>
+                                                <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="<%= item.sort_order %>" class="w-32 rounded border px-3 py-2 text-sm"></div>
+                                            </div>
+                                            <div class="space-y-3 mt-4">
+                                                <div><label class="block text-sm font-medium mb-1">Description (EN)</label><textarea name="description_en" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_en %></textarea></div>
+                                                <div><label class="block text-sm font-medium mb-1">Description (RU)</label><textarea name="description_ru" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_ru %></textarea></div>
+                                                <div><label class="block text-sm font-medium mb-1">Description (UZ)</label><textarea name="description_uz" rows="2" class="w-full rounded border px-3 py-2 text-sm"><%= item.description_uz %></textarea></div>
+                                            </div>
+                                            <div class="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                                                <button type="button" onclick="document.getElementById('edit-edu-<%= item.id %>').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Save Changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+
+                <!-- Add Education Modal -->
+                <div id="add-edu-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+                        <h3 class="text-xl font-bold mb-4">Add Education</h3>
+                        <form action="/admin/education/create" method="POST" class="space-y-4">
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-sm font-medium mb-1">Institution (EN)</label><input type="text" name="institution_en" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Institution (RU)</label><input type="text" name="institution_ru" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Institution (UZ)</label><input type="text" name="institution_uz" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-sm font-medium mb-1">Degree (EN)</label><input type="text" name="degree_en" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Degree (RU)</label><input type="text" name="degree_ru" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Degree (UZ)</label><input type="text" name="degree_uz" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div><label class="block text-sm font-medium mb-1">Period (EN)</label><input type="text" name="period_en" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Period (RU)</label><input type="text" name="period_ru" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Period (UZ)</label><input type="text" name="period_uz" required class="w-full rounded border px-3 py-2 text-sm"></div>
+                            </div>
+                            <div class="grid grid-cols-1 gap-4">
+                                <div><label class="block text-sm font-medium mb-1">Institution URL</label><input type="url" name="institution_url" class="w-full rounded border px-3 py-2 text-sm"></div>
+                                <div><label class="block text-sm font-medium mb-1">Sort Order</label><input type="number" name="sort_order" value="0" class="w-32 rounded border px-3 py-2 text-sm"></div>
+                            </div>
+                            <div class="space-y-3 mt-4">
+                                <div><label class="block text-sm font-medium mb-1">Description (EN)</label><textarea name="description_en" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                                <div><label class="block text-sm font-medium mb-1">Description (RU)</label><textarea name="description_ru" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                                <div><label class="block text-sm font-medium mb-1">Description (UZ)</label><textarea name="description_uz" rows="2" class="w-full rounded border px-3 py-2 text-sm"></textarea></div>
+                            </div>
+                            <div class="flex justify-end space-x-3 mt-6 pt-4 border-t">
+                                <button type="button" onclick="document.getElementById('add-edu-modal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded">Cancel</button>
+                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Add Education</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="/js/admin.js"></script>
+</body>
+</html>
