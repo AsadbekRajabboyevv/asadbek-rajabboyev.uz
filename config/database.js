@@ -2,19 +2,26 @@ const Database = require('better-sqlite3');
 const fs = require('fs');
 const path = require('path');
 
+<<<<<<< HEAD
 const dataDir = process.env.VERCEL ? '/tmp' : path.join(__dirname, '..', 'data');
+=======
+const dataDir = path.join(__dirname, '..', 'data');
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
 if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true });
 }
 
 const db = new Database(path.join(dataDir, 'portfolio.db'));
 
+<<<<<<< HEAD
 // Safe auto-migration for new columns
 try { db.exec("ALTER TABLE settings ADD COLUMN theme TEXT DEFAULT 'cyber_dark'"); } catch (e) {}
 try { db.exec("ALTER TABLE settings ADD COLUMN music_file TEXT DEFAULT ''"); } catch (e) {}
 try { db.exec("ALTER TABLE settings ADD COLUMN location_url TEXT DEFAULT 'https://www.google.com/maps?q=Urganch,Khorezm'"); } catch (e) {}
 try { db.exec("ALTER TABLE settings ADD COLUMN company_url TEXT DEFAULT 'https://www.uzinfocom.uz'"); } catch (e) {}
 
+=======
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
 // Create tables
 db.exec(`
 CREATE TABLE IF NOT EXISTS settings (
@@ -43,8 +50,12 @@ CREATE TABLE IF NOT EXISTS settings (
   github TEXT DEFAULT 'https://github.com/AsadbekRajabboyevv',
   telegram TEXT DEFAULT 'https://t.me/asadbek_rajabboyevv',
   instagram TEXT DEFAULT 'https://instagram.com/asadbek_rajabboyevv',
+<<<<<<< HEAD
   theme TEXT DEFAULT 'cyber_dark',
   music_file TEXT DEFAULT '',
+=======
+  meta_title_en TEXT DEFAULT 'Asadbek Rajabboyev | Java Backend Developer Portfolio',
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
   meta_title_ru TEXT DEFAULT 'Асадбек Раджаббоев | Портфолио Java Backend Разработчика',
   meta_title_uz TEXT DEFAULT 'Asadbek Rajabboyev | Java Backend Dasturchi Portfoliosi',
   meta_description_en TEXT DEFAULT 'Asadbek Rajabboyev is a skilled Java Backend Developer with expertise in Spring Boot, REST APIs, and database management.',
@@ -121,6 +132,7 @@ CREATE TABLE IF NOT EXISTS education (
   description_uz TEXT NOT NULL,
   sort_order INTEGER DEFAULT 0
 );
+<<<<<<< HEAD
 
 CREATE TABLE IF NOT EXISTS themes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -147,6 +159,10 @@ if (hasThemes.count === 0) {
     stmtTheme.run('midnight_sapphire', '🌊 Sapphire Oceanic Dark', '#031926', '#F0F9FF', '#0EA5E9', 'rgba(14, 116, 144, 0.5)', 'rgba(56, 189, 248, 0.3)', 0);
 }
 
+=======
+`);
+
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
 // Seed data
 const hasSettings = db.prepare('SELECT count(*) as count FROM settings').get();
 if (hasSettings.count === 0) {

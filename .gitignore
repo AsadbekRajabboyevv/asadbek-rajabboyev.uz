@@ -1,7 +1,10 @@
 node_modules/
 data/
 .env
+<<<<<<< HEAD
 .next/
 .idea/
+=======
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
 public/uploads/*
 !public/uploads/.gitkeep

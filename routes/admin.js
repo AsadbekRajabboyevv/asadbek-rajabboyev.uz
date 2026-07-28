@@ -27,6 +27,7 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
+<<<<<<< HEAD
     const username = (req.body.username || '').trim();
     const password = (req.body.password || '').trim();
 
@@ -38,6 +39,14 @@ router.post('/login', (req, res) => {
         res.redirect('/admin');
     } else {
         res.render('admin/login', { error: 'Invalid credentials. Please check your username and password.' });
+=======
+    const { username, password } = req.body;
+    if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
+        req.session.isAdmin = true;
+        res.redirect('/admin');
+    } else {
+        res.render('admin/login', { error: 'Invalid credentials' });
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
     }
 });
 
@@ -53,6 +62,7 @@ router.get('/', requireAuth, (req, res) => {
     const projects = db.prepare('SELECT * FROM projects ORDER BY sort_order').all();
     const experience = db.prepare('SELECT * FROM experience ORDER BY sort_order').all();
     const education = db.prepare('SELECT * FROM education ORDER BY sort_order').all();
+<<<<<<< HEAD
     const themes = db.prepare('SELECT * FROM themes').all();
     
     res.render('admin/dashboard', { settings, about, skills, projects, experience, education, themes, query: req.query });
@@ -143,11 +153,32 @@ router.post('/settings', requireAuth, upload.fields([{ name: 'profile_image' }, 
         validTheme, music_file
     );
 
+=======
+    
+    res.render('admin/dashboard', { settings, about, skills, projects, experience, education, query: req.query });
+});
+
+router.post('/settings', requireAuth, upload.single('profile_image'), (req, res) => {
+    const data = req.body;
+    let query = 'UPDATE settings SET ';
+    const params = [];
+    for (const key in data) {
+        query += `${key} = ?, `;
+        params.push(data[key]);
+    }
+    if (req.file) {
+        query += `profile_image = ?, `;
+        params.push(req.file.filename);
+    }
+    query = query.slice(0, -2) + ' WHERE id = 1';
+    db.prepare(query).run(...params);
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
     res.redirect('/admin?tab=settings');
 });
 
 // About CRUD
 router.post('/about/create', requireAuth, (req, res) => {
+<<<<<<< HEAD
     const text_en = req.body.text_en || '';
     const text_ru = req.body.text_ru || text_en || '';
     const text_uz = req.body.text_uz || text_en || '';
@@ -161,6 +192,15 @@ router.post('/about/update/:id', requireAuth, (req, res) => {
     const text_uz = req.body.text_uz || text_en || '';
     const sort_order = req.body.sort_order || 0;
     db.prepare('UPDATE about_paragraphs SET text_en=?, text_ru=?, text_uz=?, sort_order=? WHERE id=?').run(text_en, text_ru, text_uz, sort_order, req.params.id);
+=======
+    const { text_en, text_ru, text_uz, sort_order } = req.body;
+    db.prepare('INSERT INTO about_paragraphs (text_en, text_ru, text_uz, sort_order) VALUES (?, ?, ?, ?)').run(text_en, text_ru, text_uz, sort_order || 0);
+    res.redirect('/admin?tab=about');
+});
+router.post('/about/update/:id', requireAuth, (req, res) => {
+    const { text_en, text_ru, text_uz, sort_order } = req.body;
+    db.prepare('UPDATE about_paragraphs SET text_en=?, text_ru=?, text_uz=?, sort_order=? WHERE id=?').run(text_en, text_ru, text_uz, sort_order || 0, req.params.id);
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
     res.redirect('/admin?tab=about');
 });
 router.post('/about/delete/:id', requireAuth, (req, res) => {
@@ -170,6 +210,7 @@ router.post('/about/delete/:id', requireAuth, (req, res) => {
 
 // Skills CRUD
 router.post('/skills/create', requireAuth, (req, res) => {
+<<<<<<< HEAD
     const name = req.body.name || '';
     const icon_class = req.body.icon_class || 'fas fa-code';
     const percentage = req.body.percentage || 50;
@@ -183,6 +224,15 @@ router.post('/skills/update/:id', requireAuth, (req, res) => {
     const percentage = req.body.percentage || 50;
     const sort_order = req.body.sort_order || 0;
     db.prepare('UPDATE skills SET name=?, icon_class=?, percentage=?, sort_order=? WHERE id=?').run(name, icon_class, percentage, sort_order, req.params.id);
+=======
+    const { name, icon_class, percentage, sort_order } = req.body;
+    db.prepare('INSERT INTO skills (name, icon_class, percentage, sort_order) VALUES (?, ?, ?, ?)').run(name, icon_class, percentage || 50, sort_order || 0);
+    res.redirect('/admin?tab=skills');
+});
+router.post('/skills/update/:id', requireAuth, (req, res) => {
+    const { name, icon_class, percentage, sort_order } = req.body;
+    db.prepare('UPDATE skills SET name=?, icon_class=?, percentage=?, sort_order=? WHERE id=?').run(name, icon_class, percentage || 50, sort_order || 0, req.params.id);
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
     res.redirect('/admin?tab=skills');
 });
 router.post('/skills/delete/:id', requireAuth, (req, res) => {
@@ -192,6 +242,7 @@ router.post('/skills/delete/:id', requireAuth, (req, res) => {
 
 // Projects CRUD
 router.post('/projects/create', requireAuth, upload.single('image'), (req, res) => {
+<<<<<<< HEAD
     const title_en = req.body.title_en || '';
     const title_ru = req.body.title_ru || title_en || '';
     const title_uz = req.body.title_uz || title_en || '';
@@ -221,6 +272,19 @@ router.post('/projects/update/:id', requireAuth, upload.single('image'), (req, r
     if (req.file) image = req.file.filename;
 
     db.prepare('UPDATE projects SET title_en=?, title_ru=?, title_uz=?, description_en=?, description_ru=?, description_uz=?, image=?, github_url=?, technologies=?, sort_order=? WHERE id=?').run(title_en, title_ru, title_uz, description_en, description_ru, description_uz, image, github_url, technologies, sort_order, req.params.id);
+=======
+    const { title_en, title_ru, title_uz, description_en, description_ru, description_uz, github_url, technologies, sort_order } = req.body;
+    let image = req.body.image || '';
+    if (req.file) image = req.file.filename;
+    db.prepare('INSERT INTO projects (title_en, title_ru, title_uz, description_en, description_ru, description_uz, image, github_url, technologies, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(title_en, title_ru, title_uz, description_en, description_ru, description_uz, image, github_url, technologies, sort_order || 0);
+    res.redirect('/admin?tab=projects');
+});
+router.post('/projects/update/:id', requireAuth, upload.single('image'), (req, res) => {
+    const { title_en, title_ru, title_uz, description_en, description_ru, description_uz, github_url, technologies, sort_order } = req.body;
+    let image = req.body.image;
+    if (req.file) image = req.file.filename;
+    db.prepare('UPDATE projects SET title_en=?, title_ru=?, title_uz=?, description_en=?, description_ru=?, description_uz=?, image=?, github_url=?, technologies=?, sort_order=? WHERE id=?').run(title_en, title_ru, title_uz, description_en, description_ru, description_uz, image, github_url, technologies, sort_order || 0, req.params.id);
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
     res.redirect('/admin?tab=projects');
 });
 router.post('/projects/delete/:id', requireAuth, (req, res) => {
@@ -230,6 +294,7 @@ router.post('/projects/delete/:id', requireAuth, (req, res) => {
 
 // Experience CRUD
 router.post('/experience/create', requireAuth, (req, res) => {
+<<<<<<< HEAD
     const company_en = req.body.company_en || '';
     const company_ru = req.body.company_ru || company_en || '';
     const company_uz = req.body.company_uz || company_en || '';
@@ -265,6 +330,15 @@ router.post('/experience/update/:id', requireAuth, (req, res) => {
     const sort_order = req.body.sort_order || 0;
 
     db.prepare('UPDATE experience SET company_en=?, company_ru=?, company_uz=?, company_url=?, position_en=?, position_ru=?, position_uz=?, period_en=?, period_ru=?, period_uz=?, description_en=?, description_ru=?, description_uz=?, sort_order=? WHERE id=?').run(company_en, company_ru, company_uz, company_url, position_en, position_ru, position_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order, req.params.id);
+=======
+    const { company_en, company_ru, company_uz, company_url, position_en, position_ru, position_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order } = req.body;
+    db.prepare('INSERT INTO experience (company_en, company_ru, company_uz, company_url, position_en, position_ru, position_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(company_en, company_ru, company_uz, company_url, position_en, position_ru, position_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order || 0);
+    res.redirect('/admin?tab=experience');
+});
+router.post('/experience/update/:id', requireAuth, (req, res) => {
+    const { company_en, company_ru, company_uz, company_url, position_en, position_ru, position_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order } = req.body;
+    db.prepare('UPDATE experience SET company_en=?, company_ru=?, company_uz=?, company_url=?, position_en=?, position_ru=?, position_uz=?, period_en=?, period_ru=?, period_uz=?, description_en=?, description_ru=?, description_uz=?, sort_order=? WHERE id=?').run(company_en, company_ru, company_uz, company_url, position_en, position_ru, position_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order || 0, req.params.id);
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
     res.redirect('/admin?tab=experience');
 });
 router.post('/experience/delete/:id', requireAuth, (req, res) => {
@@ -274,6 +348,7 @@ router.post('/experience/delete/:id', requireAuth, (req, res) => {
 
 // Education CRUD
 router.post('/education/create', requireAuth, (req, res) => {
+<<<<<<< HEAD
     const institution_en = req.body.institution_en || '';
     const institution_ru = req.body.institution_ru || institution_en || '';
     const institution_uz = req.body.institution_uz || institution_en || '';
@@ -309,6 +384,15 @@ router.post('/education/update/:id', requireAuth, (req, res) => {
     const sort_order = req.body.sort_order || 0;
 
     db.prepare('UPDATE education SET institution_en=?, institution_ru=?, institution_uz=?, institution_url=?, degree_en=?, degree_ru=?, degree_uz=?, period_en=?, period_ru=?, period_uz=?, description_en=?, description_ru=?, description_uz=?, sort_order=? WHERE id=?').run(institution_en, institution_ru, institution_uz, institution_url, degree_en, degree_ru, degree_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order, req.params.id);
+=======
+    const { institution_en, institution_ru, institution_uz, institution_url, degree_en, degree_ru, degree_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order } = req.body;
+    db.prepare('INSERT INTO education (institution_en, institution_ru, institution_uz, institution_url, degree_en, degree_ru, degree_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(institution_en, institution_ru, institution_uz, institution_url, degree_en, degree_ru, degree_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order || 0);
+    res.redirect('/admin?tab=education');
+});
+router.post('/education/update/:id', requireAuth, (req, res) => {
+    const { institution_en, institution_ru, institution_uz, institution_url, degree_en, degree_ru, degree_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order } = req.body;
+    db.prepare('UPDATE education SET institution_en=?, institution_ru=?, institution_uz=?, institution_url=?, degree_en=?, degree_ru=?, degree_uz=?, period_en=?, period_ru=?, period_uz=?, description_en=?, description_ru=?, description_uz=?, sort_order=? WHERE id=?').run(institution_en, institution_ru, institution_uz, institution_url, degree_en, degree_ru, degree_uz, period_en, period_ru, period_uz, description_en, description_ru, description_uz, sort_order || 0, req.params.id);
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
     res.redirect('/admin?tab=education');
 });
 router.post('/education/delete/:id', requireAuth, (req, res) => {

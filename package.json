@@ -4,6 +4,7 @@
   "description": "Dynamic portfolio website with admin panel",
   "main": "server.js",
   "scripts": {
+<<<<<<< HEAD
     "dev": "node server.js",
     "build": "next build",
     "start": "node server.js"
@@ -35,5 +36,18 @@
     "tailwindcss": "3.4.17",
     "three": "^0.185.1",
     "typescript": "5.8.2"
+=======
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "ejs": "^3.1.10",
+    "better-sqlite3": "^11.7.0",
+    "multer": "^1.4.5-lts.1",
+    "bcryptjs": "^2.4.3",
+    "express-session": "^1.18.1",
+    "dotenv": "^16.4.7"
+>>>>>>> 2fbd807b51c0206a00de8b2cc2a7b64ca9bd282d
   }
 }
