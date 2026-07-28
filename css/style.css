@@ -1,0 +1,51 @@
+body,html{overflow:auto;scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif}
+.gradient-bg{background:linear-gradient(135deg,#00072D 0%,#051650 50%,#0A2472 100%)}
+.animate-float{animation:float 3s ease-in-out infinite}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-20px)}100%{transform:translateY(0)}}
+.project-card:hover .project-overlay{opacity:1}
+a:focus,button:focus{outline:2px solid #0A2472;outline-offset:2px}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal.active{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-50px);transition:opacity .7s ease,transform .7s ease}
+.reveal-left.active{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(50px);transition:opacity .7s ease,transform .7s ease}
+.reveal-right.active{opacity:1;transform:translateX(0)}
+.reveal-scale{opacity:0;transform:scale(.85);transition:opacity .6s ease,transform .6s ease}
+.reveal-scale.active{opacity:1;transform:scale(1)}
+.stagger-1{transition-delay:.05s}.stagger-2{transition-delay:.1s}.stagger-3{transition-delay:.15s}
+.stagger-4{transition-delay:.2s}.stagger-5{transition-delay:.25s}.stagger-6{transition-delay:.3s}
+.stagger-7{transition-delay:.35s}.stagger-8{transition-delay:.4s}.stagger-9{transition-delay:.45s}
+.stagger-10{transition-delay:.5s}.stagger-11{transition-delay:.55s}.stagger-12{transition-delay:.6s}
+.skill-bar-fill{width:0%!important;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.skill-bar-fill.animated{width:var(--target-width)!important}
+.typing-text{border-right:3px solid #93C5FD;white-space:nowrap;overflow:hidden;animation:typing 2.5s steps(22,end) forwards,blink .75s step-end infinite;width:0}
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink{from,to{border-color:transparent}50%{border-color:#93C5FD}}
+#scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#3B82F6,#60A5FA);z-index:9999;transition:width .1s linear}
+#back-to-top{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:#0A2472;color:white;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:0;transform:translateY(20px);transition:opacity .3s,transform .3s,background .2s;z-index:1000;box-shadow:0 4px 16px rgba(10,36,114,.4)}
+#back-to-top.visible{opacity:1;transform:translateY(0)}
+#back-to-top:hover{background:#1e40af}
+#cursor-glow{pointer-events:none;position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.08) 0%,transparent 70%);transform:translate(-50%,-50%);z-index:0;transition:left .08s,top .08s}
+#birthday-overlay{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(0,7,45,.92);backdrop-filter:blur(6px);flex-direction:column;animation:overlayFadeIn .5s ease}
+@keyframes overlayFadeIn{from{opacity:0}to{opacity:1}}
+#birthday-overlay.hide{animation:overlayFadeOut .7s ease forwards}
+@keyframes overlayFadeOut{from{opacity:1}to{opacity:0;pointer-events:none}}
+.bday-card{background:linear-gradient(135deg,#051650 0%,#0A2472 100%);border:1px solid rgba(147,197,253,.25);border-radius:24px;padding:3rem 2.5rem;text-align:center;max-width:420px;width:90%;animation:cardPop .6s cubic-bezier(.34,1.56,.64,1) .2s both}
+@keyframes cardPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.bday-title{font-size:2.2rem;font-weight:700;color:#fff;margin-bottom:.5rem;line-height:1.2}
+.bday-year{font-size:4rem;font-weight:800;color:#60A5FA;line-height:1;margin:.5rem 0;animation:yearPulse 1.5s ease-in-out infinite}
+@keyframes yearPulse{0%,100%{text-shadow:0 0 20px rgba(96,165,250,.5)}50%{text-shadow:0 0 40px rgba(96,165,250,.9),0 0 80px rgba(96,165,250,.4)}}
+.bday-sub{color:#93C5FD;font-size:1rem;margin-bottom:1.5rem;opacity:.9}
+.bday-close{background:#3B82F6;color:white;border:none;padding:.75rem 2rem;border-radius:50px;font-size:1rem;font-weight:600;cursor:pointer;transition:background .2s,transform .1s;font-family:'Poppins',sans-serif}
+.bday-close:hover{background:#2563EB;transform:scale(1.05)}
+#bday-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99998}
+.flame-svg{animation:flicker .6s ease-in-out infinite alternate;transform-origin:bottom center}
+@keyframes flicker{0%{transform:scaleX(1) scaleY(1)}50%{transform:scaleX(1.15) scaleY(.92)}100%{transform:scaleX(.88) scaleY(1.1)}}
+.project-card-wrapper{transition:transform .3s ease,box-shadow .3s ease}
+.project-card-wrapper:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(10,36,114,.18)}
+.skill-card{transition:transform .3s ease,box-shadow .3s ease}
+.skill-card:hover{transform:translateY(-8px);box-shadow:0 12px 32px rgba(10,36,114,.15)}
+.timeline-card{transition:transform .25s ease,box-shadow .25s ease}
+.timeline-card:hover{transform:translateX(6px);box-shadow:0 8px 24px rgba(10,36,114,.13)}
+.nav-link.active-section{color:#93C5FD}
